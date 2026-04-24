@@ -1,8 +1,8 @@
 # VE-MD: Variational Encoder – Multi-Decoder for Emotion Recognition
 
-**VE-MD** jointly learns a shared latent space for **emotion classification** and **structural representations** (body pose, facial landmarks), with two structural decoders: **DETR** (set-based queries) and **Heatmap** (OpenPose-light). A frozen **ViT** branch provides global semantics; a trainable multi-task encoder (**ResNet-50** or **Custom Residual**) refines task-specific features.
+**VE-MD** jointly learns a shared latent space for **emotion classification** and **structural representations (SR)** (body pose, facial landmarks), with two structural decoders: **PersonQuery** (based on DETR approach) and **Heatmap** (based on OpenPose approach). A frozen **ViT** branch provides global semantics; a trainable multi-task encoder (**ResNet-50** or **Custom Residual**) refines task-specific features.
 
-> Paper: _will_be_dded arXiv/DOI when available_  
+> Paper: https://arxiv.org/pdf/2604.02397  
 
 
 
@@ -13,14 +13,14 @@
 </p>
 
 
-### Structural Representation (SR) Decoder (DETR-based) Overview 
+### Structural Representation (SR) PersonQuery Decoder (DETR approach) Overview 
 
 <p align="center">
   <img src="images/detr_decoder.png" alt="VE-MD architecture" width="500">
 
 </p>
 
-### Structural Representation (SR) OpenPose-light Decoder (Heatmap-based) Overview 
+### Structural Representation (SR) Heatmap Decoder (OpenPose approach) Overview 
 
 <p align="center">
   <img src="images/heatmap_decoder.png" alt="VE-MD architecture" width="500">
@@ -148,3 +148,6 @@ python run.py \
 - FaceAlignment
 - DETR
 - OpenPose
+
+## License
+This project is licensed under the MIT License — see the LICENSE file for details.
