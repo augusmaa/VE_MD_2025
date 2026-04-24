@@ -1,4 +1,4 @@
-# VE-MD: Variational Encoder – Multi-Decoder for Emotion Recognition
+# Variational Encoder–Multi-Decoder (VE-MD) for Privacy-by-functional-design (Group) Emotion Recognition
 
 **VE-MD** jointly learns a shared latent space for **emotion classification** and **structural representations (SR)** (body pose, facial landmarks), with two structural decoders: **PersonQuery** (based on DETR approach) and **Heatmap** (based on OpenPose approach). A frozen **ViT** branch provides global semantics; a trainable multi-task encoder (**ResNet-50** or **Custom Residual**) refines task-specific features.
 
