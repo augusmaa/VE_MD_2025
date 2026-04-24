@@ -106,8 +106,8 @@ python run.py \
 
 ## 🔧 Features 
 - Frozen ViT + trainable multi-task encoder (ResNet-50 or Custom Res). 
-- Two structural decoders: **DETR** and **Heatmap (OpenPose-style)**. 
-- Optional **ST-GCN** temporal modeling in the case of **DETR**.
+- Two structural decoders: **PersonQuery (DETR)** and **Heatmap (OpenPose)**. 
+- Optional **ST-GCN** temporal modeling in the case of **PersonQuery**.
 - **Privacy-aware** “latent-only” inference mode (no structural inputs).
 
 ## Examples of Structural Representation (SR) prediction with Heatmap-based
