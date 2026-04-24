@@ -1,3 +1,4 @@
 ViTPose-ONNX/
 __pycache__/
+.DS*
 

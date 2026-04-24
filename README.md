@@ -141,6 +141,11 @@ python run.py \
 </p>
 
 
+## Live demonstration 1
+![Demo](images/demo_1.gif)
+
+## Live demonstration 2
+![Demo](images/demo_2.gif)
 
 
 ## Acknowledgements
