@@ -63,7 +63,7 @@ conda activate ve_md_env
 export CUDA_VISIBLE_DEVICES=0,1,2 # to set devices 0, 1, 2
 
 ```
-## 🚀 Quick Start
+## 🚀 Quick Start Training
 
 **DETR-based VE-MD on GAF-3.0 (use SR in the emotion decoder)**  
 
@@ -109,6 +109,14 @@ python run.py \
 - Two structural decoders: **PersonQuery (DETR)** and **Heatmap (OpenPose)**. 
 - Optional **ST-GCN** temporal modeling in the case of **PersonQuery**.
 - **Privacy-aware** “latent-only” inference mode (no structural inputs).
+
+
+## 🚀 Quick Start Inference
+- For the inference use the following link:
+
+> https://gricad-gitlab.univ-grenoble-alpes.fr/augusmaa/ve-md-audiovideo/-/tree/master?ref_type=heads
+
+
 
 ## Examples of Structural Representation (SR) prediction with Heatmap-based
 
