@@ -15,6 +15,13 @@ from transformers import ViTModel
 from sampleUpDown import *
 from pose import *
 
+
+
+def reparameterize(mu: torch.Tensor, logvar: torch.Tensor) -> torch.Tensor:
+    """z = mu + sigma * eps, eps ~ N(0, I). Keeps the sampling differentiable."""
+    std = torch.exp(0.5 * logvar)
+    eps = torch.randn_like(std)
+    return mu + eps * std
      
 class EncoderResidual(nn.Module):
     def __init__(self,
@@ -24,15 +31,20 @@ class EncoderResidual(nn.Module):
         super(EncoderResidual, self).__init__()
         self.conv_in = nn.Conv2d(3, ch, 7, 1, 3) # when there is No Mask
         self.res_blocks = nn.ModuleList([ResDown(ch * 2**i, ch * 2**(i+1)) for i in range(num_blocks)])
-        # Additional 1x1 convs to adjust channels to latent_channels
-        self.latent = nn.Conv2d(ch*2**num_blocks, latent_channels, 1)
+        # Additional 1x1 convs to adjust channels to latent_channels        
+        self.conv_mu = nn.Conv2d(ch*2**num_blocks, latent_channels, 1)
+        self.conv_logvar =  nn.Conv2d(ch*2**num_blocks, latent_channels, 1)
+        
         self.act_fnc = nn.ELU()
+
     def forward(self, x):
         x = self.act_fnc(self.conv_in(x))
         for block in self.res_blocks:
-            x = block(x)
-        x = self.latent(x)
-        return x
+            x = block(x)        
+        mu = self.conv_mu(x)
+        logvar = self.conv_logvar(x)          # log(sigma^2), 
+        z = reparameterize(mu, logvar)
+        return z
 
 class EncoderResnet(nn.Module):
     def __init__(self,
@@ -61,13 +73,17 @@ class EncoderResnet(nn.Module):
         #self.resnet.fc = torch.nn.Identity()
         #self.resnet.avgpool = torch.nn.Identity()
 
-        self.latent = nn.Conv2d(2048, latent_channels, 1)
+        self.conv_mu = nn.Conv2d(2048, latent_channels, 1)
+        self.conv_logvar = nn.Conv2d(2048, latent_channels, 1)
+
 
     def forward(self, x):
         bs =x.size(0)
         x = self.resnet(x).view(bs, 2048, 7, 7)
-        x = self.latent(x)
-        return x
+        mu = self.conv_mu(x)
+        logvar = self.conv_logvar(x)          # log(sigma^2), 
+        z = reparameterize(mu, logvar)
+        return z
     
     
     
@@ -89,14 +105,20 @@ class EncoderViTLarge(nn.Module):
         #         param.requires_grad = True
             
         self.lantent = nn.Linear(1024, latent_dim)
-        self.latent_resized = nn.Conv2d(latent_dim, latent_dim, 10)
+        self.conv_mu = nn.Conv2d(latent_dim, latent_dim, 10)
+        self.conv_logvar = nn.Conv2d(latent_dim, latent_dim, 10)
+
+        
     def forward(self, images):
         bs = images.size(0)
         vit_outputs = self.vit_backbone.forward_features(images)
         encoded_features = self.lantent(vit_outputs)
         encoded_features = encoded_features[:,: 256,:].view(bs, self.latent_dim, 16, 16)
-        encoded_features = self.latent_resized(encoded_features)
-        return encoded_features
+    
+        mu = self.conv_mu(encoded_features)
+        logvar = self.conv_logvar(encoded_features)          # log(sigma^2), 
+        z = reparameterize(mu, logvar)
+        return z
     
     
 
@@ -120,7 +142,8 @@ class EncoderViTBase(nn.Module):
         
         # Latent representation transformation
         self.lantent = nn.Linear(768, latent_dim)  # ViT-Base output size is 768
-        self.latent_resized = nn.Conv2d(latent_dim, latent_dim, 8)
+        self.conv_mu = nn.Conv2d(latent_dim, latent_dim, 8)
+        self.conv_logvar = nn.Conv2d(latent_dim, latent_dim, 8)
     
     def forward(self, images):
         bs = images.size(0)
@@ -133,6 +156,9 @@ class EncoderViTBase(nn.Module):
         
         # Reshape and resize latent features
         encoded_features = encoded_features[:, :196, :].view(bs, self.latent_dim, 14, 14)  # Shape: [batch_size, latent_dim, 14, 14]
-        encoded_features = self.latent_resized(encoded_features)  # Shape: [batch_size, latent_dim, 7, 7]
         
-        return encoded_features
+        mu = self.conv_mu(encoded_features)
+        logvar = self.conv_logvar(encoded_features)          # log(sigma^2), 
+        z = reparameterize(mu, logvar)
+        return z
+    
