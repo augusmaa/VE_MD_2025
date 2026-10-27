@@ -407,7 +407,7 @@ class Classification(nn.Module):
         self._init_positional_encoding(pos_enc_type, max_len=1000)  # assuming max 500 frames
 
         # Transformer + pooling
-        encoder_layer = nn.TransformerEncoderLayer(d_model=self.last_dim, nhead=1).to(device)
+        encoder_layer = nn.TransformerEncoderLayer(d_model=self.last_dim, nhead=1, batch_first=True).to(device)
         self.transformer = nn.TransformerEncoder(encoder_layer, num_layers=1).to(device)
         self.att_pool = AttentionPooling(self.last_dim, device).to(device)
 
