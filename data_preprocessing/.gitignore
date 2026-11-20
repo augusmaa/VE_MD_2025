@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+.DS_Store
+prepared/
+checkpoints/
+external/
+*.h5
+*.pt
+*.pth
+*.onnx

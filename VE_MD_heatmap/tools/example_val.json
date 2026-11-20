@@ -1,0 +1,11 @@
+[
+  {
+    "id": "clip101",
+    "label": 2,
+    "images": {
+      "path": "frames.h5",
+      "key": "clip101"
+    },
+    "feat_vit": "features/clip101.vit_feat.pt"
+  }
+]

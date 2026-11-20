@@ -1,0 +1,14 @@
+name: ve-md-heatmap
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - pip:
+      - torch
+      - torchvision
+      - numpy
+      - pillow
+      - h5py
+      - pyyaml
+      - transformers

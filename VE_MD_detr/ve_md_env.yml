@@ -1,0 +1,15 @@
+name: ve-md-personquery
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - pip:
+      - torch
+      - torchvision
+      - numpy
+      - scipy
+      - pillow
+      - h5py
+      - pyyaml
+      - transformers

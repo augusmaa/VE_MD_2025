@@ -1,0 +1,13 @@
+[
+  {
+    "id": "clip001",
+    "label": 0,
+    "images": {
+      "path": "frames.h5",
+      "key": "clip001"
+    },
+    "feat_vit": "features/clip001.vit_feat.pt",
+    "limb_person": "targets/clip001_person_limb.pt",
+    "limb_face": "targets/clip001_face_limb.pt"
+  }
+]

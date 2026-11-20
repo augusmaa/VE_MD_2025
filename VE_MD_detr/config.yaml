@@ -1,0 +1,47 @@
+# Example configuration for one three-class video dataset.
+data:
+  train: data/train.json
+  validation: data/val.json
+  frames: 5
+  image_size: 224
+
+model:
+  num_classes: 3
+  encoder_name: resnet50
+  pretrained: true
+  latent_dim: 512
+  num_queries: 100
+  nheads: 8
+  num_encoder_layers: 3
+  num_decoder_layers: 3
+  feedforward_dim: 2048
+  use_vit: true
+  vit_dim: 1024
+  use_person_pose: true
+  use_face_pose: false
+  two_encoders: false
+  add_keypoints: true   # use pose information in the classification or not
+  projection_dim: null  # null: raw structural features; integer: projected features
+  stgcn_active: false
+  num_limbs_person: 18
+  num_limbs_face: 20
+  coordinate_layout: channels_first  # (4,K); use limb_first for (K,4)
+  positional_encoding: sinusoidal
+  dropout: 0.0
+  sample_in_eval: false
+  channel_factor: 64  # used by the custom residual encoder
+  blocks_res: 5
+
+training:
+  epochs: 50
+  batch_size: 8  # per process with DDP
+  workers: 0
+  learning_rate: 1.0e-6
+  weight_decay: 0.0
+  grad_clip: 1.0
+  seed: 2025
+
+loss:
+  pose_weight: 0.1
+  mmd_weight: 1.0  # set to zero to disable MMD
+  mmd_sigma: 1.0

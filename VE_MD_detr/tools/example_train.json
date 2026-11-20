@@ -1,0 +1,15 @@
+[
+  {
+    "id": "clip001",
+    "label": 0,
+    "images": {
+      "path": "frames.h5",
+      "key": "clip001"
+    },
+    "feat_vit": "features/clip001.vit_feat.pt",
+    "skeleton_person": "targets/clip001_person_kp.pt",
+    "adjacency_person": "targets/clip001_person_adj.pt",
+    "skeleton_face": "targets/clip001_face_kp.pt",
+    "adjacency_face": "targets/clip001_face_adj.pt"
+  }
+]
