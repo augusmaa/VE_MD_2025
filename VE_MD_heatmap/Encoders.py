@@ -1,4 +1,4 @@
-"""Variational visual encoders; optional dependencies are imported on demand."""
+"""Variational visual encoders; optional dependencies are imported on demand. updated"""
 
 import torch
 from torch import nn
